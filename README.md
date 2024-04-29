@@ -1,12 +1,12 @@
-#Crypto Dash
+# Crypto Dash
 
-##Description
+## Description
 Crypto Dash is a React TypeScript application that displays cryptocurrency data using the CoinGecko API.
 
-##Installation
+## Installation
 Use npm to install dependencies:
 npm install
 
-##Usage
+## Usage
 To start the app, run:
 npm run dev
