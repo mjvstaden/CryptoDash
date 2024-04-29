@@ -9,37 +9,20 @@ const idListSlice = createSlice({
             state.push(action.payload);
         }
     },
+    removeId: (state, action) => {
+        console.log(action.payload);
+        console.log("Before: " + state);
+        console.log("After: "+ state.filter(id => id !== action.payload));
+        return state.filter(id => id[0] !== action.payload);
+    },
   },
 });
 
 
-export const { setIdList } = idListSlice.actions;
+export const { setIdList, removeId} = idListSlice.actions;
 
 export default configureStore({
   reducer: {
     idList: idListSlice.reducer,
   },
 });
-
-// import { configureStore, createSlice } from '@reduxjs/toolkit'
-
-// const idListSlice = createSlice({
-//   name: 'storeIdList',
-//   initialState: {list: [] as string[]},
-//   reducers: {
-//     AddToIdList: (state, action) => {
-//         if (!state.list.includes(action.payload)) {
-//             state.list.push(action.payload);
-//         }
-//     },
-//   },
-// });
-
-
-// export const { AddToIdList } = idListSlice.actions;
-
-// export default configureStore({
-//   reducer: {
-//     idList: idListSlice.reducer,
-//   },
-// });

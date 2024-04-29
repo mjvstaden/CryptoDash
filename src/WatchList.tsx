@@ -1,7 +1,19 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { removeId } from './store';    
+import Popup from 'react-popup';
 
-export default function Top10() {
+export default function WatchList() {
+    const dispatch = useDispatch();
+
+    interface RootState {
+        idList: string[];
+      }
+            
+    const idList = useSelector((state: RootState) => state.idList);
 
     interface CoinData {
         id: string;
@@ -15,36 +27,34 @@ export default function Top10() {
         // include other properties as needed
       }
     
-    const [topCurrencies, setTopCurrencies] = useState<CoinData[]>([]);
+    const [watchList, setWatchList] = useState<CoinData[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    console.log(idList);
       
     useEffect(() => {
-        const fetchData = () => {
-          const options = {
+        if (idList.length > 0) {
+
+            const options = {
             method: 'GET',
             url: 'https://api.coingecko.com/api/v3/coins/markets',
-            params: {vs_currency: 'ZAR', order: 'market_cap_desc', per_page: '10'},
+            params: {vs_currency: 'zar', ids: idList.join(',')},
             headers: {accept: 'application/json', 'x-cg-demo-api-key': 'CG-VcYQyF479XHu33QXcB6iRCxF'}
-          };
-    
-          axios
+            };
+            
+            axios
             .request(options)
             .then(function (response) {
-              setTopCurrencies(response.data);
+                setWatchList(response.data);
             })
             .catch(function (error) {
-              console.error(error);
+                setError('Failed to fetch data. Please try again later.');
             });
-        };
-    
-        // Fetch the data immediately
-        fetchData();
-    
-        // Fetch the data every 5 minutes
-        const intervalId = setInterval(fetchData, 5 * 60 * 1000);
-    
-        // Clean up the interval on unmount
-        return () => clearInterval(intervalId);
-      }, []);
+
+        } else {
+            setWatchList([]);
+        }
+    }, [idList]); 
 
     function handleMoreInfo(id: string) {
 
@@ -52,9 +62,10 @@ export default function Top10() {
 
   return (
     <>
-        // Display the top 10 cryptocurrencies here
+      <h1>WatchList</h1>
+        {error && <div>{error}</div>}
         <div style={{ maxHeight: '85%', overflowY: 'auto', display: 'flex', justifyContent: 'space-between' ,flexWrap: 'wrap'}}>
-            {topCurrencies.map(result => (
+            {watchList.map(result => (
               <div key={result.id} style={{ margin: '2px', display: 'flex', alignItems: 'center', width: '100%' }}>
                 <h2>{result.market_cap_rank}</h2>
                 <img src={result.image} alt={result.name} style={{ width: '20px', height: '20px', objectFit: 'cover', marginRight: '10px' }} />
@@ -63,9 +74,12 @@ export default function Top10() {
                 <button style={{float: 'right'}} onClick={() => handleMoreInfo(result.id)}>
                     More Info
                 </button>
+                <button onClick={() => dispatch(removeId(result.id))}>
+                    Remove
+                </button>
               </div>
             ))}
-            </div>
+        </div>
     </>
   )
 }

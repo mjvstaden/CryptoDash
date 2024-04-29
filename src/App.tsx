@@ -3,6 +3,7 @@ import axios from 'axios';
 import Search from './Search';
 import { useSelector } from 'react-redux';
 import Top10 from './topCryptos';
+import WatchList from './WatchList';
 
 interface RootState {
   idList: string[];
@@ -19,10 +20,7 @@ export default function App(){
           <Search />
         </div>
       <Top10 />
-      <h2>Watch List:</h2>
-      {idList.map(id => (
-        <p key={id}>{id}</p>
-      ))}
+      <WatchList/>
     </div>
   )
 }
