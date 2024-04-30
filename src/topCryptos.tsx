@@ -52,20 +52,39 @@ export default function Top10() {
 
   return (
     <>
-        // Display the top 10 cryptocurrencies here
-        <div style={{ maxHeight: '85%', overflowY: 'auto', display: 'flex', justifyContent: 'space-between' ,flexWrap: 'wrap'}}>
+      <div style={{ maxHeight: '85%', overflowY: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th style={{ textAlign: 'left' }}>Rank</th>
+              <th style={{ textAlign: 'left' }}>Currency</th>
+              <th style={{ textAlign: 'left' }}>Name</th>
+              <th style={{ textAlign: 'right' }}>Price</th>
+              <th style={{ textAlign: 'right' }}>Price Change (24h)</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
             {topCurrencies.map(result => (
-              <div key={result.id} style={{ margin: '2px', display: 'flex', alignItems: 'center', width: '100%' }}>
-                <h2>{result.market_cap_rank}</h2>
-                <img src={result.image} alt={result.name} style={{ width: '20px', height: '20px', objectFit: 'cover', marginRight: '10px' }} />
-                <h3 style= {{margin: '10px'}}>{result.symbol}</h3>
-                <h3 style= {{margin: '10px'}}>{result.name}</h3>
-                <button style={{float: 'right'}} onClick={() => handleMoreInfo(result.id)}>
-                    More Info
-                </button>
-              </div>
+              <tr key={result.id} style={{ borderBottom: '1px solid #ccc' }}>
+                <td style={{ textAlign: 'left' }}>{result.market_cap_rank}</td>
+                <td style={{ textAlign: 'left' }}>
+                  <img src={result.image} alt={result.name} style={{ width: '20px', height: '20px', objectFit: 'cover', marginRight: '10px' }} />
+                  {result.symbol}
+                </td>
+                <td style={{ textAlign: 'left' }}>{result.name}</td>
+                <td style={{ textAlign: 'right' }}>{result.current_price}</td>
+                <td style={{ textAlign: 'right', color: result.price_change_24h < 0 ? 'red' : 'green' }}>
+                  {result.price_change_24h.toFixed(2)}
+                </td>
+                <td>
+                  <button style={{ float: 'right'}} onClick={() => handleMoreInfo(result.id)}>More Info</button>
+                </td>
+              </tr>
             ))}
-            </div>
+          </tbody>
+        </table>
+      </div>
     </>
   )
 }

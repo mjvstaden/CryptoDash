@@ -47,21 +47,45 @@ export default function Search() {
       }
 
     return (
-        <div>
-        <h1>Search</h1>
-          <input type="text" style={{ width: '70%'}} onChange={(e) => handleSearch(e.target.value)} />
-          <div style={{ maxHeight: '85%', overflowY: 'auto', display: 'flex', justifyContent: 'space-between' ,flexWrap: 'wrap'}}>
-            {searchResults.map(result => (
-              <div key={result.id} style={{ margin: '2px', display: 'flex', alignItems: 'center', width: '100%' }}>
-                <img src={result.thumb} alt={result.name} style={{ width: '20px', height: '20px', objectFit: 'cover', marginRight: '10px' }} />
-                <h3 style= {{margin: '10px'}}>{result.symbol}</h3>
-                <h3 style= {{margin: '10px'}}>{result.name}</h3>
-                <button style={{float: 'right'}} onClick={() => handleUpdateIDList(result.id)}>
-                    Add to Favourites
+    <div>
+      <h1 style={{ marginTop: '50px'}}>Search</h1>
+      <div>
+        <input
+          type="text"
+          style={{ width: '70%' }}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+      </div>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left' }}>Thumbnail</th>
+            <th style={{ textAlign: 'left' }}>Symbol</th>
+            <th style={{ textAlign: 'left' }}>Name</th>
+            <th style={{ textAlign: 'left' }}>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchResults.map(result => (
+            <tr key={result.id}>
+              <td>
+                <img
+                  src={result.thumb}
+                  alt={result.name}
+                  style={{ width: '20px', height: '20px', objectFit: 'cover' }}
+                />
+              </td>
+              <td>{result.symbol}</td>
+              <td>{result.name}</td>
+              <td>
+                <button onClick={() => handleUpdateIDList(result.id)}>
+                  Add to Favourites
                 </button>
-              </div>
-            ))}
-            </div>
-        </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
     )
 }

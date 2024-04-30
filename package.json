@@ -12,8 +12,11 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@types/axios": "^0.14.0",
+    "@types/react-alert": "^7.0.6",
     "axios": "^1.6.8",
     "react": "^18.3.1",
+    "react-alert": "^7.0.3",
+    "react-alert-template-basic": "^1.0.2",
     "react-dom": "^18.3.1",
     "react-popup": "^0.11.2",
     "react-redux": "^9.1.1"
