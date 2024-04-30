@@ -1,66 +1,25 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import useCoinData from './hooks/coinData';
 
 export default function Top10() {
+  const { data: topCurrencies, error } = useCoinData('https://api.coingecko.com/api/v3/coins/markets', {vs_currency: 'ZAR', order: 'market_cap_desc', per_page: '10'});
 
-    interface CoinData {
-        id: string;
-        name: string;
-        symbol: string;
-        image: string;
-        market_cap: number;
-        current_price: number;
-        price_change_24h: number;
-        market_cap_rank: number;
-        // include other properties as needed
-      }
-    
-    const [topCurrencies, setTopCurrencies] = useState<CoinData[]>([]);
-      
-    useEffect(() => {
-        const fetchData = () => {
-          const options = {
-            method: 'GET',
-            url: 'https://api.coingecko.com/api/v3/coins/markets',
-            params: {vs_currency: 'ZAR', order: 'market_cap_desc', per_page: '10'},
-            headers: {accept: 'application/json', 'x-cg-demo-api-key': 'CG-VcYQyF479XHu33QXcB6iRCxF'}
-          };
-    
-          axios
-            .request(options)
-            .then(function (response) {
-              setTopCurrencies(response.data);
-            })
-            .catch(function (error) {
-              console.error(error);
-            });
-        };
-    
-        // Fetch the data immediately
-        fetchData();
-    
-        // Fetch the data every 5 minutes
-        const intervalId = setInterval(fetchData, 5 * 60 * 1000);
-    
-        // Clean up the interval on unmount
-        return () => clearInterval(intervalId);
-      }, []);
+  function handleMoreInfo(id: string) {
 
-    function handleMoreInfo(id: string) {
-
-    }
+  }
 
   return (
     <>
+    <h1>Top 10 Cryptocurrencies by Market Cap</h1>
       <div style={{ maxHeight: '85%', overflowY: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th style={{ textAlign: 'left' }}>Rank</th>
-              <th style={{ textAlign: 'left' }}>Currency</th>
+              <th style={{ textAlign: 'left' }}>Symbol</th>
               <th style={{ textAlign: 'left' }}>Name</th>
               <th style={{ textAlign: 'right' }}>Price</th>
-              <th style={{ textAlign: 'right' }}>Price Change (24h)</th>
+              <th style={{ textAlign: 'right' }}>Change (24h)</th>
+              <th style={{ textAlign: 'right'}}>Change % (24h)</th>
               <th></th>
             </tr>
           </thead>
@@ -76,6 +35,9 @@ export default function Top10() {
                 <td style={{ textAlign: 'right' }}>{result.current_price}</td>
                 <td style={{ textAlign: 'right', color: result.price_change_24h < 0 ? 'red' : 'green' }}>
                   {result.price_change_24h.toFixed(2)}
+                </td>
+                <td style={{ textAlign: 'right', color: result.price_change_percentage_24h < 0 ? 'red' : 'green' }}>
+                  {result.price_change_percentage_24h.toFixed(2)}%
                 </td>
                 <td>
                   <button style={{ float: 'right'}} onClick={() => handleMoreInfo(result.id)}>More Info</button>

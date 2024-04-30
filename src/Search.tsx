@@ -52,7 +52,6 @@ export default function Search() {
       <div>
         <input
           type="text"
-          style={{ width: '70%' }}
           onChange={(e) => handleSearch(e.target.value)}
         />
       </div>
