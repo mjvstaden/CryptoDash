@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import Search from './Search';
-import { useSelector } from 'react-redux';
-import Top10 from './topCryptos';
-import WatchList from './WatchList';
-
-interface RootState {
-  idList: string[];
-}
+import Search from './components/Search';
+import Top10 from './components/Top10';
+import WatchList from './components/Watchlist';
 
 export default function App(){
-
-  const idList = useSelector((state: RootState) => state.idList);
-
   return (
     <div>
       <h1>Crypto Dashboard</h1>
