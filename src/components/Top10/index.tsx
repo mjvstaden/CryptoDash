@@ -49,7 +49,8 @@ export default function Top10() {
 
   return (
     <>
-    <h3>Top 10 Cryptocurrencies by Market Cap</h3>
+    <h3 style={{marginBottom: '-10px'}}>Top 10 Cryptocurrencies by Market Cap</h3>
+    <p>(Refreshes every 5 min)</p>
       <div style={{ maxHeight: '85%', overflowY: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>

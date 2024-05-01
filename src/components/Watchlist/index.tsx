@@ -53,7 +53,7 @@ export default function WatchList() {
 };
 
 fetchData();
-const timer = setInterval(fetchData, 5 * 60 * 1000); // 5 minutes
+const timer = setInterval(fetchData, 2 * 60 * 1000); // 2 minutes
 return () => clearInterval(timer);
 }, [idList]); 
 
@@ -63,7 +63,8 @@ return () => clearInterval(timer);
 
   return (
     <>
-    <h1>Watchlist </h1>
+    <h1 style={{marginBottom: '-10px'}}>Watchlist</h1>
+    <p>(Refreshes every 2 min)</p>
       <div style={{ maxHeight: '85%', maxWidth: '70%', overflowY: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>

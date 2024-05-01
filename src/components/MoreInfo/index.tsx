@@ -73,7 +73,6 @@ export default function MoreInfo() {
       <div className="crypto-info">
       <h2>{coinData.name}</h2>
       <div className="info-group">
-        <p>Description:</p>
         <div style={{whiteSpace: 'pre-line'}} dangerouslySetInnerHTML={{ __html: coinData?.description.en }} />
       </div>
       <h3>Market data</h3>
