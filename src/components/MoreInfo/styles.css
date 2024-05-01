@@ -1,0 +1,32 @@
+.crypto-info {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .crypto-info h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .info-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .info-group p {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #777;
+  }
+  

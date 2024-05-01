@@ -1,16 +1,16 @@
-import Search from './components/Search';
-import Top10 from './components/Top10';
-import WatchList from './components/Watchlist';
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MoreInfo from './components/MoreInfo';
+import Dashboard from './components/Dashboard';
 export default function App(){
   return (
     <div>
-      <h1>Crypto Dashboard</h1>
-      <Top10 />
-      <div style={{ float: 'right', maxWidth: '25%', minWidth: '25%', margin: '-40px 0px'}}> 
-          <Search />
-        </div>
-      <WatchList/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="more-info/:id" element={<MoreInfo />} />
+        </Routes>
+      </BrowserRouter>
+
     </div>
   )
 }

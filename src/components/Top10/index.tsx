@@ -1,7 +1,47 @@
-import useCoinData from '../../hooks/coinData';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Top10() {
-  const { data: topCurrencies, error } = useCoinData('https://api.coingecko.com/api/v3/coins/markets', {vs_currency: 'ZAR', order: 'market_cap_desc', per_page: '10'});
+  // const { data: topCurrencies, error } = useCoinData('https://api.coingecko.com/api/v3/coins/markets', {vs_currency: 'ZAR', order: 'market_cap_desc', per_page: '10'});
+  const [topCurrencies, setTopCurrencies] = useState<CoinData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  interface CoinData {
+    id: string;
+    name: string;
+    symbol: string;
+    image: string;
+    market_cap: number;
+    current_price: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    market_cap_rank: number;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://api.coingecko.com/api/v3/coins/markets',
+        params: {vs_currency: 'zar', per_page: '10'},
+        headers: {accept: 'application/json', 'x-cg-demo-api-key': 'CG-VcYQyF479XHu33QXcB6iRCxF'}
+      };
+
+      try {
+        const response = await axios.request(options);
+        setTopCurrencies(response.data);
+        setError(null);
+      } catch (error) {
+        console.error(error);
+        setError('Failed to fetch data. Please try again later.');
+      }
+    };
+
+    fetchData();
+    const timer = setInterval(fetchData, 5 * 60 * 1000); // 5 minutes
+    return () => clearInterval(timer);
+  }, []); 
 
   function handleMoreInfo(id: string) {
 
@@ -9,7 +49,7 @@ export default function Top10() {
 
   return (
     <>
-    <h1>Top 10 Cryptocurrencies by Market Cap</h1>
+    <h3>Top 10 Cryptocurrencies by Market Cap</h3>
       <div style={{ maxHeight: '85%', overflowY: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -34,13 +74,15 @@ export default function Top10() {
                 <td style={{ textAlign: 'left' }}>{result.name}</td>
                 <td style={{ textAlign: 'right' }}>{result.current_price}</td>
                 <td style={{ textAlign: 'right', color: result.price_change_24h < 0 ? 'red' : 'green' }}>
-                  {result.price_change_24h.toFixed(2)}
+                    {result.price_change_24h ? result.price_change_24h.toFixed(2) : 'N/A'}
                 </td>
                 <td style={{ textAlign: 'right', color: result.price_change_percentage_24h < 0 ? 'red' : 'green' }}>
-                  {result.price_change_percentage_24h.toFixed(2)}%
+                    {result.price_change_percentage_24h ? result.price_change_percentage_24h.toFixed(2) : 'N/A'}%
                 </td>
                 <td>
-                  <button style={{ float: 'right'}} onClick={() => handleMoreInfo(result.id)}>More Info</button>
+                  <button style={{ float: 'right'}}>
+                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to={`/more-info/` + result.id}>More Info</Link>
+                  </button>
                 </td>
               </tr>
             ))}

@@ -10,10 +10,11 @@ const idListSlice = createSlice({
         }
     },
     removeId: (state, action) => {
-        console.log(action.payload);
-        console.log("Before: " + state);
-        console.log("After: "+ state.filter(id => id !== action.payload));
-        return state.filter(id => id[0] !== action.payload);
+        state.forEach((id, index) => {
+            if (id[0] === action.payload) {
+                state.splice(index, 1);
+            }
+        });
     },
   },
 });

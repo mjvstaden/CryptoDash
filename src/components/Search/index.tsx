@@ -47,8 +47,8 @@ export default function Search() {
       }
 
     return (
-    <div>
-      <h1 style={{ marginTop: '50px'}}>Search</h1>
+    <div style={{ width: '80%', marginLeft: '30px', marginRight: '30px'}}>
+      <h1 style={{ marginTop: '20px'}}>Search</h1>
       <div>
         <input
           type="text"
@@ -58,8 +58,8 @@ export default function Search() {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left' }}>Thumbnail</th>
             <th style={{ textAlign: 'left' }}>Symbol</th>
+            <th style={{ textAlign: 'left' }}></th>
             <th style={{ textAlign: 'left' }}>Name</th>
             <th style={{ textAlign: 'left' }}>Action</th>
           </tr>

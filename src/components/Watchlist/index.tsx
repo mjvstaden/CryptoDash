@@ -1,19 +1,69 @@
 import { useSelector } from 'react-redux';
-import useCoinData from '../../hooks/coinData';
+import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { removeId, setIdList } from '../../store';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function WatchList() {
   interface RootState {idList: string[];}
   const idList = useSelector((state: RootState) => state.idList);
-  const coinDataArgs = idList.length > 0 ? {vs_currency: 'ZAR', ids: idList.join(',')} : null;
-  const { data: watchList, error } = useCoinData('https://api.coingecko.com/api/v3/coins/markets', coinDataArgs);
-   
-  function handleMoreInfo(id: string) {
+  //const coinDataArgs = idList.length > 0 ? {vs_currency: 'ZAR', ids: idList.join(',')} : null;
+  //const { data: watchList, error } = useCoinData('https://api.coingecko.com/api/v3/coins/markets', coinDataArgs);
+  const dispatch = useDispatch();
 
+  const [watchList, setWatchList] = useState<CoinData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  interface CoinData {
+    id: string;
+    name: string;
+    symbol: string;
+    image: string;
+    market_cap: number;
+    current_price: number;
+    price_change_24h: number;
+    price_change_percentage_24h: number;
+    market_cap_rank: number;
+  }
+
+  useEffect(() => {
+    if (idList.length === 0) {
+      setWatchList([]);
+      setError(null);
+      return;
+    }
+    
+    const fetchData = async () => {
+    const options = {
+        method: 'GET',
+        url: 'https://api.coingecko.com/api/v3/coins/markets',
+        params: {vs_currency: 'zar', ids: idList.join(',')},
+        headers: {accept: 'application/json', 'x-cg-demo-api-key': 'CG-VcYQyF479XHu33QXcB6iRCxF'}
+        };
+
+  try {
+    const response = await axios.request(options);
+    setWatchList(response.data);
+    setError(null);
+  } catch (error) {
+    console.error(error);
+    setError('Failed to fetch data. Please try again later.');
+  }
+};
+
+fetchData();
+const timer = setInterval(fetchData, 5 * 60 * 1000); // 5 minutes
+return () => clearInterval(timer);
+}, [idList]); 
+
+  function handleRemove(id: string) {
+    dispatch(removeId(id));
   }
 
   return (
     <>
-    <h1>Watch List </h1>
+    <h1>Watchlist </h1>
       <div style={{ maxHeight: '85%', maxWidth: '70%', overflowY: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -44,7 +94,12 @@ export default function WatchList() {
                   {result.price_change_percentage_24h.toFixed(2)}%
                 </td>
                 <td>
-                  <button style={{ float: 'right'}} onClick={() => handleMoreInfo(result.id)}>More Info</button>
+                  <button style={{ float: 'right'}}>
+                    <Link style={{ color: 'inherit', textDecoration: 'none' }} to={`/more-info/` + result.id}>More Info</Link>
+                  </button>
+                  <button style={{ float: 'right'}} onClick={() => handleRemove(result.id)}>
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}
