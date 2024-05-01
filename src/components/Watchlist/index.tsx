@@ -71,7 +71,7 @@ return () => clearInterval(timer);
               <th style={{ textAlign: 'left' }}>Rank</th>
               <th style={{ textAlign: 'left' }}>Symbol</th>
               <th style={{ textAlign: 'left' }}>Name</th>
-              <th style={{ textAlign: 'right' }}>Price</th>
+              <th style={{ textAlign: 'right' }}>Price (ZAR)</th>
               <th style={{ textAlign: 'right' }}>Change (24h)</th>
               <th style={{ textAlign: 'right' }}>Change % (24h)</th>
               <th></th>
@@ -86,7 +86,7 @@ return () => clearInterval(timer);
                   {result.symbol}
                 </td>
                 <td style={{ textAlign: 'left' }}>{result.name}</td>
-                <td style={{ textAlign: 'right' }}>{result.current_price}</td>
+                <td style={{ textAlign: 'right' }}>{result.current_price.toLocaleString()}</td>
                 <td style={{ textAlign: 'right', color: result.price_change_24h < 0 ? 'red' : 'green' }}>
                   {result.price_change_24h.toFixed(2)}
                 </td>

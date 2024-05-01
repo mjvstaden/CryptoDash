@@ -57,7 +57,8 @@ export default function Top10() {
               <th style={{ textAlign: 'left' }}>Rank</th>
               <th style={{ textAlign: 'left' }}>Symbol</th>
               <th style={{ textAlign: 'left' }}>Name</th>
-              <th style={{ textAlign: 'right' }}>Price</th>
+              <th style={{ textAlign: 'right' }}>Market Cap (ZAR)</th>
+              <th style={{ textAlign: 'right' }}>Price (ZAR)</th>
               <th style={{ textAlign: 'right' }}>Change (24h)</th>
               <th style={{ textAlign: 'right'}}>Change % (24h)</th>
               <th></th>
@@ -72,7 +73,8 @@ export default function Top10() {
                   {result.symbol}
                 </td>
                 <td style={{ textAlign: 'left' }}>{result.name}</td>
-                <td style={{ textAlign: 'right' }}>{result.current_price}</td>
+                <td style={{ textAlign: 'right' }}>{result.market_cap.toLocaleString()}</td>
+                <td style={{ textAlign: 'right' }}>{result.current_price.toLocaleString()}</td>
                 <td style={{ textAlign: 'right', color: result.price_change_24h < 0 ? 'red' : 'green' }}>
                     {result.price_change_24h ? result.price_change_24h.toFixed(2) : 'N/A'}
                 </td>
